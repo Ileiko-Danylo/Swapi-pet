@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export const CategoryPicker = (props) => {
-  const data = [
-    'people',
-    'planets',
-    'films',
-    'species',
-    'vehicles',
-    'starships',
-  ];
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    axios('https://swapi.dev/api/')
+      .then((response) => {
+        setData(Object.keys(response.data));
+      })
+      .catch((e) => console.error(e));
+  }, []);
 
   const selectedCategories = data
     ? data.map((category, index) => ({
@@ -16,8 +18,6 @@ export const CategoryPicker = (props) => {
         id: index + 1,
       }))
     : [];
-  console.log('data', data);
-  console.log(selectedCategories);
 
   let content = <p>Loading categories...</p>;
 
