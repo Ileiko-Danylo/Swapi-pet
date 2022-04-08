@@ -1,12 +1,19 @@
-import { Header } from './components/Header';
 import { CategoryPicker } from './components/CategoryPicker';
+import Container from '@material-ui/core/Container';
+import AppBar from '@material-ui/core/AppBar';
+import ToolBar from '@material-ui/core/ToolBar';
+import { AppBarText } from './components/AppBarText';
 
 function App() {
   return (
-    <>
-      <Header />
-      <CategoryPicker />
-    </>
+    <Container>
+      <AppBar>
+        <ToolBar>
+          <CategoryPicker />
+          <AppBarText />
+        </ToolBar>
+      </AppBar>
+    </Container>
   );
 }
 
