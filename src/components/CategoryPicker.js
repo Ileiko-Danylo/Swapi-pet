@@ -20,6 +20,7 @@ export const CategoryPicker = (props) => {
   useEffect(() => {
     axios('https://swapi.dev/api/')
       .then((response) => {
+        // console.log('response data', response.data);
         setData(Object.entries(response.data));
       })
       .catch((e) => console.error(e));
@@ -58,9 +59,9 @@ export const CategoryPicker = (props) => {
         >
           {selectedCategories.map((category) => (
             <MenuItem
-              onClick={handleClose}
+              onClick={props.onCategorySelect}
               key={category.id}
-              value={category.id}
+              data-my-value={category.name}
             >
               {category.name}
             </MenuItem>
