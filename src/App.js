@@ -13,6 +13,7 @@ function App() {
   const categorySelectHandler = (event) => {
     const { myValue } = event.currentTarget.dataset;
     const categoryName = myValue;
+
     console.log(categoryName);
     setSelectedCategory(categoryName);
   };
@@ -27,11 +28,8 @@ function App() {
           <AppBarText />
         </ToolBar>
       </AppBar>
-      <br />
-      <br />
-      <br />
-      <br />
-      {/* <Category selectedCategory={selectedCategory} /> */}
+
+      <Category selectedCategory={selectedCategory} />
     </Container>
   );
 }

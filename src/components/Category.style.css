@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css?family=Bowlby+One+SC');
+
+.categoryContainer {
+  padding-top: 70px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 40px;
+  -webkit-text-fill-color: rgb(0, 0, 0);
+  -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-color: #ffe91f;
+  font-family: 'Bowlby One SC', cursive;
+}
+
+.textClass {
+  padding: 40px 20px;
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+/* 
+.peopleClass {
+  padding: 40px 20px;
+  position: absolute;
+  top: 8px;
+  left: 16px;
+}
+
+.planetsClass {
+  padding: 40px 20px;
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
+
+.filmsClass {
+  padding: 40px 20px;
+  position: absolute;
+  top: 8px;
+  left: 45%;
+}
+
+.speciesClass {
+  padding: 40px 20px;
+  position: absolute;
+  top: 8px;
+  right: 16px;
+} */
