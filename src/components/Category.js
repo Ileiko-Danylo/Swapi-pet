@@ -7,8 +7,9 @@ export const Category = (props) => {
   useEffect(() => {
     axios('https://swapi.dev/api/' + props.selectedCategory)
       .then((response) => {
-        console.log('response data', response.data.results);
         setData(response.data.results);
+
+        console.log('response data', response.data.results);
       })
       .catch((e) => console.error(e));
   }, [props.selectedCategory]);

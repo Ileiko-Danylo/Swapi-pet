@@ -7,20 +7,16 @@ import MenuIcon from '@material-ui/icons/Menu';
 
 export const CategoryPicker = (props) => {
   const [data, setData] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+
+  const open = Boolean(props.anchorEl);
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
+    props.setAnchorEl(event.currentTarget);
   };
 
   useEffect(() => {
     axios('https://swapi.dev/api/')
       .then((response) => {
-        // console.log('response data', response.data);
         setData(Object.entries(response.data));
       })
       .catch((e) => console.error(e));
@@ -45,9 +41,9 @@ export const CategoryPicker = (props) => {
         <Menu
           id="demo-positioned-menu"
           aria-labelledby="demo-positioned-button"
-          anchorEl={anchorEl}
+          anchorEl={props.anchorEl}
           open={open}
-          onClose={handleClose}
+          // onClose={handleClose}
           anchorOrigin={{
             vertical: 'top',
             horizontal: 'left',

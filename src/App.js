@@ -7,14 +7,15 @@ import ToolBar from '@material-ui/core/ToolBar';
 import { AppBarText } from './components/AppBarText';
 
 function App() {
+  const [anchorEl, setAnchorEl] = useState(null);
   const [selectedCategory, setSelectedCategory] =
     useState('people');
 
   const categorySelectHandler = (event) => {
     const { myValue } = event.currentTarget.dataset;
     const categoryName = myValue;
+    setAnchorEl(null);
 
-    console.log(categoryName);
     setSelectedCategory(categoryName);
   };
   return (
@@ -22,6 +23,8 @@ function App() {
       <AppBar>
         <ToolBar>
           <CategoryPicker
+            anchorEl={anchorEl}
+            setAnchorEl={setAnchorEl}
             selectedCategory={selectedCategory}
             onCategorySelect={categorySelectHandler}
           />
