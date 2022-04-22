@@ -1,0 +1,15 @@
+.characterContainer {
+  position: relative;
+  border: 3px solid black;
+  padding: 10px;
+  margin: 10px;
+}
+
+.characterImg {
+  /* width: 356px; */
+  height: 495px;
+}
+
+.charInfo {
+  float: left;
+}

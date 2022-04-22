@@ -5,6 +5,7 @@ import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
 import ToolBar from '@material-ui/core/ToolBar';
 import { AppBarText } from './components/AppBarText';
+import { PeopleContent } from './components/PeopleContent';
 
 function App() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -33,6 +34,7 @@ function App() {
       </AppBar>
 
       <Category selectedCategory={selectedCategory} />
+      <PeopleContent />
     </Container>
   );
 }
