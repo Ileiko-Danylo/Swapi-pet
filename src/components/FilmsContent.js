@@ -18,23 +18,23 @@ import axios from 'axios';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-export const PeopleContent = () => {
+export const FilmsContent = () => {
   const [data, setData] = useState(null);
   useEffect(() => {
-    axios('https://swapi.dev/api/people/')
+    axios('https://swapi.dev/api/films/')
       .then((response) => {
         setData(response.data.results);
       })
       .catch((e) => console.error(e));
   }, []);
 
-  const charactersWithImages = data ? (
-    data.map((character) => ({
-      name: character.name,
-      gender: character.gender,
-      skinColor: character.skin_color,
-      eyeColor: character.skin_color,
-      img: require(`../../public/peopleImg/${character.name}.png`),
+  const filmsWithImages = data ? (
+    data.map((film) => ({
+      title: film.title,
+      opening_crawl: film.opening_crawl,
+      director: film.director,
+      release_date: film.release_date,
+      img: require(`../../public/filmsImg/${film.title}.jpg`),
     }))
   ) : (
     <p>Loading data...</p>
@@ -44,7 +44,7 @@ export const PeopleContent = () => {
   // console.log(theme);
 
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = charactersWithImages.length;
+  const maxSteps = filmsWithImages.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -58,10 +58,11 @@ export const PeopleContent = () => {
     setActiveStep(step);
   };
 
-  if (charactersWithImages && charactersWithImages.length > 0) {
+  if (filmsWithImages && filmsWithImages.length > 0) {
     return (
       <Box
         sx={{
+          //   maxWidth: 800,
           flexGrow: 1,
           p: 1,
         }}
@@ -77,7 +78,9 @@ export const PeopleContent = () => {
             bgcolor: 'background.default',
           }}
         >
-          <Typography>{charactersWithImages[activeStep].name}</Typography>
+          <Typography>
+            <b>{filmsWithImages[activeStep].title}</b>
+          </Typography>
         </Paper>
         <AutoPlaySwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -85,8 +88,8 @@ export const PeopleContent = () => {
           onChangeIndex={handleStepChange}
           enableMouseEvents
         >
-          {charactersWithImages.map((step, index) => (
-            <div key={step.name}>
+          {filmsWithImages.map((step, index) => (
+            <div key={step.title}>
               {Math.abs(activeStep - index) <= 2 ? (
                 <Box
                   sx={{
@@ -101,18 +104,20 @@ export const PeopleContent = () => {
                   <Box
                     component="img"
                     sx={{
-                      height: 613,
-                      maxHeight: 613,
-                      maxWidth: 400,
+                      //   height: 613,
+                      //   maxHeight: 613,
+                      //   width: 800,
                       display: 'block',
                       overflow: 'hidden',
-                      width: '100%',
+                      height: 600,
+                      width: 400,
                     }}
                     src={step.img}
-                    alt={step.name}
+                    alt={step.title}
                   />
                   <Box
                     sx={{
+                      maxWidth: 400,
                       textTransform: 'uppercase',
                       color: '',
                       pl: 20,
@@ -130,13 +135,13 @@ export const PeopleContent = () => {
                     }}
                   >
                     <p>
-                      <b>gender</b>: {step.gender}
+                      <b>opening_crawl</b>: {step.opening_crawl}
                     </p>
                     <p>
-                      <b>skinColor</b>: {step.skinColor}
+                      <b>director</b>: {step.director}
                     </p>
                     <p>
-                      <b>eyeColor</b>: {step.eyeColor}
+                      <b>release_date</b>: {step.release_date}
                     </p>
                   </Box>
                 </Box>

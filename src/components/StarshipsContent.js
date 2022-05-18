@@ -18,33 +18,33 @@ import axios from 'axios';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-export const PeopleContent = () => {
+export const StarshipsContent = () => {
   const [data, setData] = useState(null);
   useEffect(() => {
-    axios('https://swapi.dev/api/people/')
+    axios('https://swapi.dev/api/starships/')
       .then((response) => {
-        setData(response.data.results);
+        setData(response.data.results.slice(0, 5));
       })
       .catch((e) => console.error(e));
   }, []);
 
-  const charactersWithImages = data ? (
-    data.map((character) => ({
-      name: character.name,
-      gender: character.gender,
-      skinColor: character.skin_color,
-      eyeColor: character.skin_color,
-      img: require(`../../public/peopleImg/${character.name}.png`),
+  const starshipsWithImages = data ? (
+    data.map((starship) => ({
+      name: starship.name,
+      model: starship.model,
+      manufacturer: starship.manufacturer,
+      cost_in_credits: starship.cost_in_credits,
+      crew: starship.crew,
+      max_atmosphering_speed: starship.max_atmosphering_speed,
+      img: require(`../../public/starshipsImg/${starship.name}.${'jpg' || 'jpeg'}`),
     }))
   ) : (
     <p>Loading data...</p>
   );
-
   const theme = useTheme();
-  // console.log(theme);
 
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = charactersWithImages.length;
+  const maxSteps = starshipsWithImages.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -58,10 +58,11 @@ export const PeopleContent = () => {
     setActiveStep(step);
   };
 
-  if (charactersWithImages && charactersWithImages.length > 0) {
+  if (starshipsWithImages && starshipsWithImages.length > 0) {
     return (
       <Box
         sx={{
+          //   maxWidth: 800,
           flexGrow: 1,
           p: 1,
         }}
@@ -77,7 +78,9 @@ export const PeopleContent = () => {
             bgcolor: 'background.default',
           }}
         >
-          <Typography>{charactersWithImages[activeStep].name}</Typography>
+          <Typography>
+            <b>{starshipsWithImages[activeStep].name}</b>
+          </Typography>
         </Paper>
         <AutoPlaySwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -85,7 +88,7 @@ export const PeopleContent = () => {
           onChangeIndex={handleStepChange}
           enableMouseEvents
         >
-          {charactersWithImages.map((step, index) => (
+          {starshipsWithImages.map((step, index) => (
             <div key={step.name}>
               {Math.abs(activeStep - index) <= 2 ? (
                 <Box
@@ -101,18 +104,17 @@ export const PeopleContent = () => {
                   <Box
                     component="img"
                     sx={{
-                      height: 613,
-                      maxHeight: 613,
-                      maxWidth: 400,
                       display: 'block',
                       overflow: 'hidden',
-                      width: '100%',
+                      height: 600,
+                      maxWidth: 8000,
                     }}
                     src={step.img}
                     alt={step.name}
                   />
                   <Box
                     sx={{
+                      maxWidth: 400,
                       textTransform: 'uppercase',
                       color: '',
                       pl: 20,
@@ -130,13 +132,19 @@ export const PeopleContent = () => {
                     }}
                   >
                     <p>
-                      <b>gender</b>: {step.gender}
+                      <b>model</b>: {step.model}
                     </p>
                     <p>
-                      <b>skinColor</b>: {step.skinColor}
+                      <b>manufacturer</b>: {step.manufacturer}
                     </p>
                     <p>
-                      <b>eyeColor</b>: {step.eyeColor}
+                      <b>cost in credits</b>: {step.cost_in_credits}
+                    </p>
+                    <p>
+                      <b>crew</b>: {step.crew}
+                    </p>
+                    <p>
+                      <b>max atmosphering speed</b>: {step.max_atmosphering_speed}
                     </p>
                   </Box>
                 </Box>

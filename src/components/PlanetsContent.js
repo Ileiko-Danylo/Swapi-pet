@@ -18,33 +18,31 @@ import axios from 'axios';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-export const PeopleContent = () => {
+export const PlanetsContent = () => {
   const [data, setData] = useState(null);
   useEffect(() => {
-    axios('https://swapi.dev/api/people/')
+    axios('https://swapi.dev/api/planets/')
       .then((response) => {
-        setData(response.data.results);
+        setData(response.data.results.slice(0, 6));
       })
       .catch((e) => console.error(e));
   }, []);
 
-  const charactersWithImages = data ? (
-    data.map((character) => ({
-      name: character.name,
-      gender: character.gender,
-      skinColor: character.skin_color,
-      eyeColor: character.skin_color,
-      img: require(`../../public/peopleImg/${character.name}.png`),
+  const planetsWithImages = data ? (
+    data.map((planet) => ({
+      name: planet.name,
+      rotation_period: planet.rotation_period,
+      climate: planet.climate,
+      terrain: planet.terrain,
+      img: require(`../../public/planetsImg/${planet.name}.${'jpg' || 'jpeg'}`),
     }))
   ) : (
     <p>Loading data...</p>
   );
-
   const theme = useTheme();
-  // console.log(theme);
 
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = charactersWithImages.length;
+  const maxSteps = planetsWithImages.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -58,10 +56,11 @@ export const PeopleContent = () => {
     setActiveStep(step);
   };
 
-  if (charactersWithImages && charactersWithImages.length > 0) {
+  if (planetsWithImages && planetsWithImages.length > 0) {
     return (
       <Box
         sx={{
+          //   maxWidth: 800,
           flexGrow: 1,
           p: 1,
         }}
@@ -77,7 +76,9 @@ export const PeopleContent = () => {
             bgcolor: 'background.default',
           }}
         >
-          <Typography>{charactersWithImages[activeStep].name}</Typography>
+          <Typography>
+            <b>{planetsWithImages[activeStep].name}</b>
+          </Typography>
         </Paper>
         <AutoPlaySwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -85,7 +86,7 @@ export const PeopleContent = () => {
           onChangeIndex={handleStepChange}
           enableMouseEvents
         >
-          {charactersWithImages.map((step, index) => (
+          {planetsWithImages.map((step, index) => (
             <div key={step.name}>
               {Math.abs(activeStep - index) <= 2 ? (
                 <Box
@@ -101,18 +102,17 @@ export const PeopleContent = () => {
                   <Box
                     component="img"
                     sx={{
-                      height: 613,
-                      maxHeight: 613,
-                      maxWidth: 400,
                       display: 'block',
                       overflow: 'hidden',
-                      width: '100%',
+                      height: 600,
+                      maxWidth: 8000,
                     }}
                     src={step.img}
                     alt={step.name}
                   />
                   <Box
                     sx={{
+                      maxWidth: 400,
                       textTransform: 'uppercase',
                       color: '',
                       pl: 20,
@@ -130,13 +130,13 @@ export const PeopleContent = () => {
                     }}
                   >
                     <p>
-                      <b>gender</b>: {step.gender}
+                      <b>rotation_period</b>: {step.rotation_period}
                     </p>
                     <p>
-                      <b>skinColor</b>: {step.skinColor}
+                      <b>climate</b>: {step.climate}
                     </p>
                     <p>
-                      <b>eyeColor</b>: {step.eyeColor}
+                      <b>terrain</b>: {step.terrain}
                     </p>
                   </Box>
                 </Box>

@@ -18,33 +18,32 @@ import axios from 'axios';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-export const PeopleContent = () => {
+export const SpeciesContent = () => {
   const [data, setData] = useState(null);
   useEffect(() => {
-    axios('https://swapi.dev/api/people/')
+    axios('https://swapi.dev/api/species/')
       .then((response) => {
-        setData(response.data.results);
+        setData(response.data.results.slice(0, 6));
       })
       .catch((e) => console.error(e));
   }, []);
 
-  const charactersWithImages = data ? (
-    data.map((character) => ({
-      name: character.name,
-      gender: character.gender,
-      skinColor: character.skin_color,
-      eyeColor: character.skin_color,
-      img: require(`../../public/peopleImg/${character.name}.png`),
+  const speciesWithImages = data ? (
+    data.map((specie) => ({
+      name: specie.name,
+      classification: specie.classification,
+      skin_colors: specie.skin_colors,
+      hair_colors: specie.hair_colors,
+      average_lifespan: specie.average_lifespan,
+      img: require(`../../public/speciesImg/${specie.name}.jpg`),
     }))
   ) : (
     <p>Loading data...</p>
   );
-
   const theme = useTheme();
-  // console.log(theme);
 
   const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = charactersWithImages.length;
+  const maxSteps = speciesWithImages.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -58,10 +57,11 @@ export const PeopleContent = () => {
     setActiveStep(step);
   };
 
-  if (charactersWithImages && charactersWithImages.length > 0) {
+  if (speciesWithImages && speciesWithImages.length > 0) {
     return (
       <Box
         sx={{
+          //   maxWidth: 800,
           flexGrow: 1,
           p: 1,
         }}
@@ -77,7 +77,9 @@ export const PeopleContent = () => {
             bgcolor: 'background.default',
           }}
         >
-          <Typography>{charactersWithImages[activeStep].name}</Typography>
+          <Typography>
+            <b>{speciesWithImages[activeStep].name}</b>
+          </Typography>
         </Paper>
         <AutoPlaySwipeableViews
           axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -85,7 +87,7 @@ export const PeopleContent = () => {
           onChangeIndex={handleStepChange}
           enableMouseEvents
         >
-          {charactersWithImages.map((step, index) => (
+          {speciesWithImages.map((step, index) => (
             <div key={step.name}>
               {Math.abs(activeStep - index) <= 2 ? (
                 <Box
@@ -101,18 +103,17 @@ export const PeopleContent = () => {
                   <Box
                     component="img"
                     sx={{
-                      height: 613,
-                      maxHeight: 613,
-                      maxWidth: 400,
                       display: 'block',
                       overflow: 'hidden',
-                      width: '100%',
+                      height: 600,
+                      maxWidth: 8000,
                     }}
                     src={step.img}
                     alt={step.name}
                   />
                   <Box
                     sx={{
+                      maxWidth: 400,
                       textTransform: 'uppercase',
                       color: '',
                       pl: 20,
@@ -130,13 +131,16 @@ export const PeopleContent = () => {
                     }}
                   >
                     <p>
-                      <b>gender</b>: {step.gender}
+                      <b>classification</b>: {step.classification}
                     </p>
                     <p>
-                      <b>skinColor</b>: {step.skinColor}
+                      <b>skin_colors</b>: {step.skin_colors}
                     </p>
                     <p>
-                      <b>eyeColor</b>: {step.eyeColor}
+                      <b>hair_colors</b>: {step.hair_colors}
+                    </p>
+                    <p>
+                      <b>average_lifespan</b>: {step.average_lifespan}
                     </p>
                   </Box>
                 </Box>

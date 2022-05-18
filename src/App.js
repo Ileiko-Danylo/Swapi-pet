@@ -5,12 +5,11 @@ import Container from '@material-ui/core/Container';
 import AppBar from '@material-ui/core/AppBar';
 import ToolBar from '@material-ui/core/ToolBar';
 import { AppBarText } from './components/AppBarText';
-import { PeopleContent } from './components/PeopleContent';
+import { ContentContainer } from './components/ContentContainer';
 
 function App() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [selectedCategory, setSelectedCategory] =
-    useState('people');
+  const [selectedCategory, setSelectedCategory] = useState('people');
 
   const categorySelectHandler = (event) => {
     const { myValue } = event.currentTarget.dataset;
@@ -34,7 +33,7 @@ function App() {
       </AppBar>
 
       <Category selectedCategory={selectedCategory} />
-      <PeopleContent />
+      <ContentContainer selectedCategory={selectedCategory} />
     </Container>
   );
 }
